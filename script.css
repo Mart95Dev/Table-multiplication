@@ -50,7 +50,7 @@ body {
   margin-bottom: 10px;
 }
 .text {
-  margin-top: 20px;
+  margin: 15px 0 10px;
   text-align: left;
 }
 .table {
@@ -67,6 +67,10 @@ body {
   margin: 0 5px 0;
 }
 
+.timer-active {
+  visibility: hidden;
+}
+
 .text-score {
   text-align: center;
   font-size: 18px;
@@ -80,12 +84,17 @@ body {
   background-color: rgb(235, 231, 231);
   font-size: 40px;
 }
-
+/* -- zone question --*/
 .question-calcul {
   font-size: 50px;
   visibility: hidden;
 }
 
+.question-active {
+  visibility: visible;
+}
+
+/* -- zone score -- */
 .text-total {
   text-align: center;
   font-size: 18px;
@@ -132,8 +141,7 @@ body {
 }
 
 .number {
-  margin-left: 40px;
-  margin-right: auto;
+  margin: 0 auto 0;
 }
 
 .table-number-random {
@@ -170,6 +178,11 @@ body {
   font-size: 20px;
   text-align: center;
   transform: translateY(15%);
+  visibility: hidden;
+}
+
+.random-active {
+  visibility: visible;
 }
 
 /* -- style box operation and time --*/

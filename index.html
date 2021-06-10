@@ -37,7 +37,7 @@
     <div class="box box-table table-random">
         <p class="table">Choix automatique de la table a réviser :</p>
         <div class="position-random">
-            <button class="table-number-random"id="table-number-random">Lancer le choix</button> 
+            <button class="table-number-random">Lancer le choix</button> 
             <div class="random">
                 <p class="multiply-random" id="multiply-random"></p>
             </div>
@@ -46,23 +46,23 @@
 
     <div class="box operation">        
         <p class="table">Choix du nombre d'opérations :           
-            <label for="number-five">5</label>
-            <input type="radio" id="number-five" name="number" value="5" class="box-radio">
-            <label for="number-ten">10</label>
-            <input type="radio" id="number-ten" name="number" value="10" class="box-radio">
-            <label for="number-fifteen">15</label>
-            <input type="radio" id="number-fifteen"  name="number" value="15" class="box-radio"> 
+            <input type="radio" checked id="5" name="operation" value="5" class="box-radio" >
+            <label for="5">5</label>
+            <input type="radio" id="10" name="operation" value="10" class="box-radio">
+            <label for="10">10</label>
+            <input type="radio" id="15"  name="operation" value="15" class="box-radio"> 
+            <label for="15">15</label>
         </p>        
     </div>
 
     <div class="box box-table table-time">
         <p class="table">Choix du temps :        
-            <label for="time-twenty">20</label>
-            <input type="radio" id="time-twenty" name="time" value="20"  class="box-radio"">
-            <label for="time-thirty">30</label>
-            <input type="radio" id="time-thirty"  name="time" value="30" class="box-radio">
-            <label for="time-fortyfive">45</label>
-            <input type="radio" id="time-fortyfive" name="time" value="45" class="box-radio">
+            <input type="radio" checked id="20"  name="time" value="20"  class="box-radio"">
+            <label for="20">20s</label>
+            <input type="radio" id="30"  name="time" value="30" class="box-radio">
+            <label for="30">30s</label>
+            <input type="radio" id="45" name="time" value="45" class="box-radio">
+            <label for="45">45s</label>
         </p>
     </div>
 
@@ -76,7 +76,7 @@
             <p class="timer" id="timer"></p>
     </div>
         <div class="box response">        
-            <span class="question-calcul">10 x 2 =<input type="text" size="3" minlength="1" maxlength="4" class="input-response" id="response-calcul"></span>
+            <span class="question-calcul"><input type="text" size="3" minlength="1" maxlength="4" class="input-response" id="response-calcul"></span>
         </div>
 
     <div class=" box box-score score-error">
