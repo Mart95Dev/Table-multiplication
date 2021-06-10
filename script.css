@@ -1,0 +1,265 @@
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+/*-- position grid --*/
+body {
+  padding: 10px;
+  height: 100vh;
+  width: 100vw;
+  font-size: 14px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: rgb(4, 73, 73);
+  color: white;
+  display: grid;
+  grid-template-columns: 19% 19% 19% 19% 12% 12%;
+  grid-template-rows: repeat(8, 1fr);
+  grid-template-areas:
+    'title title title title title title'
+    'choice choice random random error error'
+    'choice-operation choice-operation choice-time choice-time point point'
+    'game game game game point point'
+    'timer timer timer timer total total'
+    'response response response response total total'
+    'response response response response total total'
+    'response response response response total total';
+}
+
+/* -- position boxes --*/
+.box {
+  border: 1px solid #fff;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  background-color: #333;
+}
+
+.box-score {
+  margin-left: 10px;
+}
+
+.box-table {
+  margin-left: 10px;
+}
+
+/* -- style elements box --*/
+.title {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.text {
+  margin-top: 20px;
+  text-align: left;
+}
+.table {
+  text-align: left;
+}
+
+.position {
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
+.timer {
+  font-size: 20px;
+  margin: 0 5px 0;
+}
+
+.text-score {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 40px;
+}
+
+.input-response {
+  height: 50px;
+  width: 100px;
+  color: orangered;
+  background-color: rgb(235, 231, 231);
+  font-size: 40px;
+}
+
+.question-calcul {
+  font-size: 50px;
+  visibility: hidden;
+}
+
+.text-total {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 40px;
+}
+
+.number-score {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+  transform: translateY(-40%);
+}
+
+#number-true {
+  color: green;
+}
+
+#number-false {
+  color: red;
+}
+
+#number-total {
+  color: rgb(255, 255, 255);
+}
+
+/* -- style box table multiply --*/
+.btn-number {
+  border: 1px solid white;
+  background-color: teal;
+  border-radius: 5px;
+  width: 30px;
+  height: 30px;
+  color: white;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.btn-number:hover {
+  background-color: rgb(56, 187, 187);
+}
+.btn-number:focus {
+  background-color: rgb(56, 187, 187);
+}
+
+.number {
+  margin-left: 40px;
+  margin-right: auto;
+}
+
+.table-number-random {
+  border: 1px solid white;
+  background-color: teal;
+  border-radius: 3px;
+  width: 150px;
+  height: 35px;
+  color: white;
+  cursor: pointer;
+  margin: 20px;
+  font-size: 16px;
+}
+
+.table-number-random:hover {
+  background-color: rgb(56, 187, 187);
+}
+
+.position-random {
+  display: flex;
+  justify-content: center;
+}
+
+.random {
+  border: 1px solid white;
+  border-radius: 5px;
+  background-color: teal;
+  width: 35px;
+  height: 35px;
+  margin: 20px;
+}
+
+.multiply-random {
+  font-size: 20px;
+  text-align: center;
+  transform: translateY(15%);
+}
+
+/* -- style box operation and time --*/
+
+.box-radio {
+  margin-left: 5px;
+}
+
+/* -- button play --*/
+.play {
+  border: 1px solid white;
+  background-color: teal;
+  border-radius: 3px;
+  width: 150px;
+  height: 35px;
+  color: white;
+  cursor: pointer;
+  margin: 20px;
+  font-size: 16px;
+  box-shadow: 5px 5px 15px 5px #333;
+}
+
+.play:hover {
+  background-color: rgb(56, 187, 187);
+}
+
+/*--- display grid ---*/
+.presentation {
+  grid-area: title;
+  text-align: center;
+}
+
+.table-multiply {
+  grid-area: choice;
+  padding: 10px;
+}
+
+.table-random {
+  padding: 10px;
+  grid-area: random;
+}
+
+.operation {
+  grid-area: choice-operation;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.table-time {
+  grid-area: choice-time;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game {
+  grid-area: game;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.response {
+  grid-area: response;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.score-error {
+  grid-area: error;
+}
+
+.score-point {
+  grid-area: point;
+}
+
+.score-total {
+  grid-area: total;
+}
+
+.time {
+  grid-area: timer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/*---------------------------------------------*/

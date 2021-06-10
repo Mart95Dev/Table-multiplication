@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,6 +8,99 @@
     <title>Table de Multiplication</title>
 </head>
 <body>
-   <script src="./index.js"></script> 
+
+    <div class="presentation">
+        <h1 class="title">Revise les tables de multiplication</h1>    
+        <h3 class="text">Choisis les options ci-dessous pour t'améliorer</h3>
+    </div>
+
+    <div class="box table-multiply">
+        <p class="table position">Choisis la table de multiplication que tu veux réviser :</p> 
+        <div class="number">      
+            <button class="btn-number" id="2">2</button>
+            <button class="btn-number" id="3">3</button>
+            <button class="btn-number" id="4">4</button>
+            <button class="btn-number" id="5">5</button>
+            <button class="btn-number" id="6">6</button>
+            <button class="btn-number" id="7">7</button>
+            <button class="btn-number" id="8">8</button>
+            <button class="btn-number" id="9">9</button>
+            <button class="btn-number" id="10">10</button>
+            <button class="btn-number" id="11">11</button>
+            <button class="btn-number" id="12">12</button>
+            <button class="btn-number" id="13">13</button>
+            <button class="btn-number" id="14">14</button>
+            <button class="btn-number" id="15">15</button>   
+        </div>
+    </div>
+
+    <div class="box box-table table-random">
+        <p class="table">Choix automatique de la table a réviser :</p>
+        <div class="position-random">
+            <button class="table-number-random"id="table-number-random">Lancer le choix</button> 
+            <div class="random">
+                <p class="multiply-random" id="multiply-random"></p>
+            </div>
+         </div>
+    </div>
+
+    <div class="box operation">        
+        <p class="table">Choix du nombre d'opérations :           
+            <label for="number-five">5</label>
+            <input type="radio" id="number-five" name="number" value="5" class="box-radio">
+            <label for="number-ten">10</label>
+            <input type="radio" id="number-ten" name="number" value="10" class="box-radio">
+            <label for="number-fifteen">15</label>
+            <input type="radio" id="number-fifteen"  name="number" value="15" class="box-radio"> 
+        </p>        
+    </div>
+
+    <div class="box box-table table-time">
+        <p class="table">Choix du temps :        
+            <label for="time-twenty">20</label>
+            <input type="radio" id="time-twenty" name="time" value="20"  class="box-radio"">
+            <label for="time-thirty">30</label>
+            <input type="radio" id="time-thirty"  name="time" value="30" class="box-radio">
+            <label for="time-fortyfive">45</label>
+            <input type="radio" id="time-fortyfive" name="time" value="45" class="box-radio">
+        </p>
+    </div>
+
+    <div class="game">
+<button class="play">Commencer</button>
+    </div>
+
+ 
+    <div class="box time">
+            <p class="timer">Temps restant pour répondre : </p>
+            <p class="timer" id="timer"></p>
+    </div>
+        <div class="box response">        
+            <span class="question-calcul">10 x 2 =<input type="text" size="3" minlength="1" maxlength="4" class="input-response" id="response-calcul"></span>
+        </div>
+
+    <div class=" box box-score score-error">
+        <h4 class="text-score">réponses incorrectes:</h4>
+        <div class="number-score">
+            <span id="number-false">0</span>
+        </div>
+    </div>
+
+    <div class="box box-score score-point">
+        <h4 class="text-score">réponses correctes :</h4>
+        <div class="number-score">
+            <span id="number-true">0</span>
+        </div>
+    </div>
+
+    <div class="box box-score score-total">
+        <h4 class="text-total">Note finale :</h4>
+        <div class="number-score">
+            <span id="number-total">0%</span>
+            <span id="emoji"></span>
+        </div>
+</div>
+
+    <script src="./index.js"></script> 
 </body>
 </html>
