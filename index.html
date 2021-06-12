@@ -16,21 +16,23 @@
 
     <div class="box table-multiply">
         <p class="table position">Choisis la table de multiplication que tu veux réviser :</p> 
-        <div class="number">      
-            <button class="btn-number" id="2">2</button>
-            <button class="btn-number" id="3">3</button>
-            <button class="btn-number" id="4">4</button>
-            <button class="btn-number" id="5">5</button>
-            <button class="btn-number" id="6">6</button>
-            <button class="btn-number" id="7">7</button>
-            <button class="btn-number" id="8">8</button>
-            <button class="btn-number" id="9">9</button>
-            <button class="btn-number" id="10">10</button>
-            <button class="btn-number" id="11">11</button>
-            <button class="btn-number" id="12">12</button>
-            <button class="btn-number" id="13">13</button>
-            <button class="btn-number" id="14">14</button>
-            <button class="btn-number" id="15">15</button>   
+        <div class="number">   
+            <fieldset>   
+                <button class="btn-number" id="2">2</button>
+                <button class="btn-number" id="3">3</button>
+                <button class="btn-number" id="4">4</button>
+                <button class="btn-number" id="5">5</button>
+                <button class="btn-number" id="6">6</button>
+                <button class="btn-number" id="7">7</button>
+                <button class="btn-number" id="8">8</button>
+                <button class="btn-number" id="9">9</button>
+                <button class="btn-number" id="10">10</button>
+                <button class="btn-number" id="11">11</button>
+                <button class="btn-number" id="12">12</button>
+                <button class="btn-number" id="13">13</button>
+                <button class="btn-number" id="14">14</button>
+                <button class="btn-number" id="15">15</button>   
+            </fieldset>
         </div>
     </div>
 
@@ -39,9 +41,9 @@
         <div class="position-random">
             <button class="table-number-random">Lancer le choix</button> 
             <div class="random">
-                <p class="multiply-random" id="multiply-random"></p>
+                <p class="multiply-random" id="text-multiply-random">0</p>
             </div>
-         </div>
+        </div>
     </div>
 
     <div class="box operation">        
@@ -67,7 +69,8 @@
     </div>
 
     <div class="game">
-<button class="play">Commencer</button>
+        <button class="reset">Recommencer</button>
+        <button class="play">Démarrer</button>
     </div>
 
  
@@ -100,7 +103,9 @@
             <span id="emoji"></span>
         </div>
 </div>
-
+<div class="overlay">
+   <p class="text-overlay"> Voici tes résultats :</p>   
+</div>
     <script src="./index.js"></script> 
 </body>
 </html>
