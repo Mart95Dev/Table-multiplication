@@ -15,7 +15,7 @@ body {
   background-color: rgb(4, 73, 73);
   color: white;
   display: grid;
-  grid-template-columns: 19% 19% 19% 19% 12% 12%;
+  grid-template-columns: 1fr 1fr 1fr 1fr 0.5fr 0.5fr;
   grid-template-rows: repeat(8, 1fr);
   grid-template-areas:
     'title title title title title title'
