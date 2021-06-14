@@ -15,7 +15,7 @@ body {
   background-color: rgb(4, 73, 73);
   color: white;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 0.5fr 0.5fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 0.6fr 0.5fr;
   grid-template-rows: repeat(8, 1fr);
   grid-template-areas:
     'title title title title title title'
@@ -80,13 +80,17 @@ body {
   margin-bottom: 10px;
 }
 
-.timer {
+.text-timer {
   font-size: 20px;
-  margin: 0 5px 0;
+  margin: 2px 5px 2px;
 }
 
-.timer-active {
+.start-timer {
   visibility: hidden;
+}
+
+.start-timer-active {
+  visibility: visible;
 }
 
 .text-score {
@@ -95,20 +99,26 @@ body {
   margin-bottom: 40px;
 }
 
-.input-response {
-  height: 50px;
-  width: 100px;
-  color: orangered;
-  background-color: rgb(235, 231, 231);
-  font-size: 40px;
-}
 /* -- zone question --*/
 .question-calcul {
-  font-size: 50px;
+  font-size: 60px;
   visibility: hidden;
 }
 
 .question-active {
+  visibility: visible;
+}
+
+.input-response {
+  height: 50px;
+  width: 75px;
+  color: white;
+  background-color: orange;
+  font-size: 40px;
+  visibility: hidden;
+}
+
+.input-response-active {
   visibility: visible;
 }
 
@@ -141,7 +151,7 @@ body {
 
 /* -- style box table multiply --*/
 .fieldset {
-  width: 350px;
+  width: 100px;
   margin: 0 auto 0;
   border: 0;
 }
@@ -158,10 +168,14 @@ body {
 }
 
 .btn-number:hover {
-  background-color: rgb(56, 187, 187);
+  background-color: orange;
 }
 .btn-number:focus {
-  background-color: rgb(56, 187, 187);
+  background-color: orange;
+}
+
+.btn-number-focus {
+  background-color: orange;
 }
 
 /*-- button disabled --*/
@@ -173,6 +187,7 @@ body {
 
 .number {
   margin: 0 auto 0;
+  width: 350px;
 }
 
 .table-number-random {
