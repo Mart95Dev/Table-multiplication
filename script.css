@@ -13,7 +13,7 @@ body {
   font-size: 14px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   background-color: rgb(4, 73, 73);
-  color: white;
+  color: rgb(245, 243, 243);
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 0.6fr 0.5fr;
   grid-template-rows: repeat(8, 1fr);
@@ -30,7 +30,7 @@ body {
 
 /* -- position boxes --*/
 .box {
-  border: 1px solid #fff;
+  border: 1px solid rgb(236, 222, 222);
   border-radius: 5px;
   margin-bottom: 10px;
   background-color: #333;
@@ -54,7 +54,7 @@ body {
   height: 80%;
   z-index: 1;
   visibility: hidden;
-  color: white;
+  color: rgb(236, 222, 222);
 }
 /* -- text finish --*/
 .text-overlay {
@@ -112,7 +112,7 @@ body {
 .input-response {
   height: 50px;
   width: 75px;
-  color: white;
+  color: rgb(236, 222, 222);
   background-color: orange;
   font-size: 40px;
   visibility: hidden;
@@ -146,36 +146,47 @@ body {
 }
 
 #number-total {
-  color: rgb(255, 255, 255);
+  color: rgb(236, 222, 222);
 }
 
 /* -- style box table multiply --*/
-.fieldset {
-  width: 100px;
+.number {
   margin: 0 auto 0;
-  border: 0;
+  width: 315px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
 }
 
-.btn-number {
-  border: 1px solid white;
+label {
+  user-select: none;
+  transition: 0.2s ease;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+input[type='radio'] {
+  display: none;
+}
+
+input[type='radio']:checked + label {
+  transform: scale(1.1);
+  background-color: orange;
+}
+
+.btn-radio {
+  font-size: 17px;
+  border: 1px solid rgb(236, 222, 222);
   background-color: teal;
   border-radius: 5px;
-  width: 30px;
+  width: 35px;
   height: 30px;
-  color: white;
+  color: rgb(236, 222, 222);
   cursor: pointer;
   margin: 5px;
-}
-
-.btn-number:hover {
-  background-color: orange;
-}
-.btn-number:focus {
-  background-color: orange;
-}
-
-.btn-number-focus {
-  background-color: orange;
 }
 
 /*-- button disabled --*/
@@ -185,18 +196,13 @@ body {
 }
 /*---------------*/
 
-.number {
-  margin: 0 auto 0;
-  width: 350px;
-}
-
 .table-number-random {
-  border: 1px solid white;
+  border: 1px solid rgb(236, 222, 222);
   background-color: teal;
   border-radius: 3px;
   width: 150px;
   height: 35px;
-  color: white;
+  color: rgb(236, 222, 222);
   cursor: pointer;
   margin: 20px;
   font-size: 16px;
@@ -212,7 +218,7 @@ body {
 }
 
 .random {
-  border: 1px solid white;
+  border: 1px solid rgb(236, 222, 222);
   border-radius: 5px;
   background-color: teal;
   width: 35px;
@@ -220,14 +226,23 @@ body {
   margin: 20px;
 }
 
+.random-active {
+  border: 1px solid rgb(236, 222, 222);
+  border-radius: 5px;
+  background-color: orange;
+  width: 35px;
+  height: 35px;
+  margin: 20px;
+}
+
 .multiply-random {
-  font-size: 20px;
+  font-size: 18px;
   text-align: center;
-  transform: translateY(15%);
+  transform: translateY(25%);
   visibility: hidden;
 }
 
-.random-active {
+.multiply-random-active {
   visibility: visible;
 }
 
@@ -237,14 +252,26 @@ body {
   margin-left: 5px;
 }
 
+.radio-time {
+  font-size: 17px;
+  border: 1px solid rgb(236, 222, 222);
+  background-color: teal;
+  border-radius: 5px;
+  width: 45px;
+  height: 30px;
+  color: rgb(236, 222, 222);
+  cursor: pointer;
+  margin: 5px;
+}
+
 /* -- button play --*/
 .play {
-  border: 1px solid white;
+  border: 1px solid rgb(236, 222, 222);
   background-color: teal;
   border-radius: 3px;
   width: 150px;
   height: 35px;
-  color: white;
+  color: rgb(236, 222, 222);
   cursor: pointer;
   margin: 20px;
   font-size: 16px;
@@ -252,17 +279,17 @@ body {
 }
 
 .play:hover {
-  background-color: rgb(56, 187, 187);
+  background-color: orange;
 }
 /*-- button reset --*/
 
 .reset {
-  border: 1px solid white;
+  border: 1px solid rgb(236, 222, 222);
   background-color: teal;
   border-radius: 3px;
   width: 150px;
   height: 35px;
-  color: white;
+  color: rgb(236, 222, 222);
   cursor: pointer;
   margin: 20px;
   font-size: 16px;
@@ -270,7 +297,7 @@ body {
 }
 
 .reset:hover {
-  background-color: rgb(56, 187, 187);
+  background-color: orange;
 }
 
 /*--- display grid ---*/
