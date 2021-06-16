@@ -10,7 +10,7 @@
 <body>
 
     <div class="presentation">
-        <h1 class="title">Revise les tables de multiplication</h1>    
+        <h2 class="title">Revise les tables de multiplication</h2>    
         <h3 class="text">Choisis les options ci-dessous pour t'améliorer</h3>
     </div>
 
@@ -60,11 +60,11 @@
 
     <div class="box operation">        
         <p class="table">Nombre opération :           
-            <input type="radio" id="55" name="operation" class="box-radio" >
+            <input type="radio" id="55" value="5" name="operation" class="box-radio" >
             <label class="btn-radio" for="55">5</label>
-            <input type="radio" id="1010" name="operation" class="box-radio">
+            <input type="radio" id="1010"  value="10" name="operation" class="box-radio">
             <label class="btn-radio" for="1010">10</label>
-            <input type="radio" id="1515"  name="operation" class="box-radio"> 
+            <input type="radio" id="1515"  value="15" name="operation" class="box-radio"> 
             <label class="btn-radio" for="1515">15</label>
         </p>        
     </div>
@@ -83,6 +83,7 @@
     <div class="game">
         <button class="reset">Recommencer</button>
         <button class="play">Démarrer</button>
+        <button class="validation" id="validation">Valide les réponses</button>
     </div>
 
  
@@ -90,10 +91,10 @@
             <p class="text-timer">Temps restant pour répondre : </p>
             <p class="text-timer start-timer" id="timer"></p>
     </div>
-        <div class="box response">        
-            <span class="question-calcul"></span>
-            <input type="text" size="3" minlength="1" maxlength="3" class="input-response" id="response">
-        </div>
+    <div class="box response" id="html">
+           
+        
+    </div>
 
     <div class=" box box-score score-error">
         <h4 class="text-score">réponses incorrectes:</h4>

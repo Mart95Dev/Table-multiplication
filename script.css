@@ -47,11 +47,12 @@ body {
 /*-- pop up finish game --*/
 .overlay {
   position: fixed;
-  left: 120px;
+  border-radius: 5px;
+  left: 10px;
   top: 55px;
-  background-color: rgba(0, 0, 0, 0.5);
-  width: 80%;
-  height: 80%;
+  background-color: rgba(0, 0, 0, 0.74);
+  width: 77.5%;
+  height: 88%;
   z-index: 1;
   visibility: hidden;
   color: rgb(236, 222, 222);
@@ -100,29 +101,29 @@ body {
 }
 
 /* -- zone question --*/
-.question-calcul {
-  font-size: 60px;
-  visibility: hidden;
+.box-response {
+  width: 90%;
 }
 
-.question-active {
-  visibility: visible;
+.calcul {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 1px 10px 10px 1px;
 }
 
 .input-response {
-  height: 50px;
-  width: 75px;
+  text-align: center;
+  height: 30px;
+  width: 60px;
   color: rgb(236, 222, 222);
   background-color: orange;
-  font-size: 40px;
-  visibility: hidden;
-}
-
-.input-response-active {
-  visibility: visible;
+  color: black;
+  margin: 1px 0 1px;
 }
 
 /* -- zone score -- */
+
 .text-total {
   text-align: center;
   font-size: 18px;
@@ -150,6 +151,7 @@ body {
 }
 
 /* -- style box table multiply --*/
+
 .number {
   margin: 0 auto 0;
   width: 315px;
@@ -189,7 +191,7 @@ input[type='radio']:checked + label {
   margin: 5px;
 }
 
-/*-- button disabled --*/
+/*-- buttons disabled --*/
 .boxDisabled {
   pointer-events: none;
   opacity: 0.2;
@@ -246,7 +248,7 @@ input[type='radio']:checked + label {
   visibility: visible;
 }
 
-/* -- style box operation and time --*/
+/* -- style box operation and box time --*/
 
 .box-radio {
   margin-left: 5px;
@@ -264,8 +266,10 @@ input[type='radio']:checked + label {
   margin: 5px;
 }
 
-/* -- button play --*/
-.play {
+/* -- button play and button reset --*/
+.play,
+.reset,
+.validation {
   border: 1px solid rgb(236, 222, 222);
   background-color: teal;
   border-radius: 3px;
@@ -278,25 +282,23 @@ input[type='radio']:checked + label {
   box-shadow: 5px 5px 15px 5px #333;
 }
 
-.play:hover {
+.validation {
   background-color: orange;
-}
-/*-- button reset --*/
-
-.reset {
-  border: 1px solid rgb(236, 222, 222);
-  background-color: teal;
-  border-radius: 3px;
-  width: 150px;
-  height: 35px;
-  color: rgb(236, 222, 222);
-  cursor: pointer;
-  margin: 20px;
-  font-size: 16px;
-  box-shadow: 5px 5px 15px 5px #333;
+  display: none;
 }
 
-.reset:hover {
+.validation-active {
+  display: block;
+}
+
+.play-active {
+  display: none;
+}
+/* -- hover all buttons -- */
+
+.reset:hover,
+.play:hover,
+.validation:hover {
   background-color: orange;
 }
 
@@ -343,8 +345,9 @@ input[type='radio']:checked + label {
   grid-area: response;
   padding: 10px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  font-size: 20px;
 }
 
 .score-error {

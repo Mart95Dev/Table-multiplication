@@ -23,15 +23,17 @@ const buttonPlayCalcul = document.querySelector('.play');
 const buttonResetGame = document.querySelector('.reset');
 
 //display question calcul
-const displayQuestionCalcul = document.querySelector('.question-calcul');
-const dispplayInputResponse = document.querySelector('.input-response');
-const responseCalcul = document.getElementById('response');
+const boxCalcul = document.querySelector('.response');
+const validation = document.querySelector('.validation');
 
 //variables
+let timer = 0;
+let startingSeconds = 0;
 let audioMinuterie = new Audio('Audio/minuteur.mp3');
 let audioAlert = new Audio('Audio/reveil.mp3');
 let multiplyComputer = 0;
 let choiceMultiply = 0;
+let tQuestion = '';
 // variable values time and operation
 let numberOperation = 0;
 let ChoiceSeconds = 0;
@@ -60,7 +62,7 @@ buttonTableRandom.addEventListener('click', () => {
 // choice operation number
 choiceOperations.forEach((operation) => {
   operation.addEventListener('click', (e) => {
-    numberOperation = e.target.id;
+    numberOperation = e.target.value;
     operation.setAttribute('checked', '');
     inputOperationValue = 1;
   });
@@ -78,11 +80,13 @@ choiceTimes.forEach((time) => {
 // button play game
 buttonPlayCalcul.addEventListener('click', () => {
   // verifie si tous les critères ont été choisis si non on alerte pour commencer le jeu
-  // affiche le temps choisis et affiche les calculs si checkchoices est bon.
   checkchoices();
 
+  // si temps écoulé avant validation, stopper le game et afficher la popup et valider les réponses pour
+  //connaitre les bonnes et mauvaises réponses.
+
+  // affiche le score bonne réponses et mauvaises réponses après validation réponses
   //fin chrono popup s'affiche avec le résumé des opérations + symbol pour indquer bon et mauvais
-  // affiche le score bonne réponses et mauvaises réponses
 });
 
 //button reset
@@ -94,18 +98,18 @@ function reset() {
   blockTableMultiplyRandom.classList.remove('boxDisabled');
   tableMultiplyRandom.classList.remove('multiply-random-active');
   displayTimer.classList.remove('start-timer-active');
-  displayQuestionCalcul.classList.remove('question-active');
-  dispplayInputResponse.classList.remove('input-response-active');
+  validation.classList.remove('validation-active');
   boxRandom.classList.remove('random-active');
+  buttonPlayCalcul.classList.remove('play-active');
+
   multiplyComputer = 0;
   choiceMultiply = 0;
   numberOperation = 0;
-  second = 0;
   inputOperationValue = 0;
   inputTimeValue = 0;
-
-  audioMinuterie = new Audio('Audio/minuteur.mp3');
-  audioAlert = new Audio('Audio/reveil.mp3');
+  tQuestion = '';
+  clearHtmlQuestion();
+  clearCounter();
 
   //variable input radio operation
   inputOperation = document.querySelector('input[name="operation"]:checked');
@@ -158,23 +162,46 @@ function screenTimer() {
   countdown();
 }
 
+// display calcul
+
 function question() {
-  let qCalcul = Math.floor(Math.random() * 11);
-  displayQuestionCalcul.classList.add('question-active');
-  dispplayInputResponse.classList.add('input-response-active');
-  if (multiplyComputer > 0) {
-    displayQuestionCalcul.textContent = `${multiplyComputer} x ${qCalcul} = `;
-  } else {
-    displayQuestionCalcul.textContent = `${choiceMultiply} x ${qCalcul} = `;
+  // create number operations in box response
+  let i = 0;
+  while (i < numberOperation) {
+    //create template multiply questions
+    tQuestion = `
+    <p class="calcul">
+    <span class="question-calcul"></span>
+    <input type="text" size="3" minlength="1" maxlength="3" class="input-response">
+    </p>
+    `;
+    boxCalcul.insertAdjacentHTML('afterbegin', tQuestion);
+    i++;
+    const displayQuestionCalcul = document.querySelector('.question-calcul');
+    let qCalcul = Math.floor(Math.random() * 11) + 1;
+    if (multiplyComputer > 0) {
+      displayQuestionCalcul.textContent = `${multiplyComputer} x ${qCalcul} = `;
+    } else {
+      displayQuestionCalcul.textContent = `${choiceMultiply} x ${qCalcul} = `;
+    }
   }
-  // countdown();
+  validation.classList.add('validation-active');
+  buttonPlayCalcul.classList.add('play-active');
+}
+
+// clear balse HTML de la box réponse then click reset // code récupérer mais compris
+function clearHtmlQuestion() {
+  const element = document.getElementById('html');
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
 }
 
 // function timer
 const countdown = () => {
-  let startingSeconds = choiceSeconds;
+  startingSeconds = choiceSeconds;
 
-  setInterval(counter, 1000);
+  timer = setInterval(counter, 1000);
 
   function counter() {
     startingSeconds =
@@ -182,19 +209,26 @@ const countdown = () => {
     displayTimer.textContent = `${startingSeconds} secondes `;
 
     if (startingSeconds > 0) {
-      audioMinuterie.play();
+      // audioMinuterie.play();
       startingSeconds--;
     } else {
-      audioMinuterie.pause();
-      audioMinuterie.currentTime = 0;
-      audioAlert.play();
-      setTimeout(() => {
-        audioAlert.pause();
-        audioAlert.currentTime = 0;
-      }, 2000);
-      clearTimeout();
+      // audioMinuterie.pause();
+      // audioMinuterie.currentTime = 0;
+      // audioAlert.play();
+
+      // setTimeout(() => {
+      //   audioAlert.pause();
+      //   audioAlert.currentTime = 0;
+      // }, 1000);
+
       displayTimer.textContent = 'le temps est écoulé';
       displayTimer.style.color = 'orange';
     }
   }
 };
+
+function clearCounter() {
+  choiceSecond = 0;
+  startingSeconds = 0;
+  clearInterval(timer);
+}
