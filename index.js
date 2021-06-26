@@ -24,19 +24,32 @@ const buttonResetGame = document.querySelector('.reset');
 
 //display question calcul
 const boxCalcul = document.querySelector('.response');
-const validation = document.querySelector('.validation');
+const buttonValidation = document.querySelector('.validation');
+
+//display score
+const scoreFalse = document.getElementById('score-false');
+const scoreTrue = document.getElementById('score-true');
+const scoreTotal = document.getElementById('score-total');
+const smiley = document.getElementById('smiley');
 
 //variables
+let totalPoint = 0;
+let timerOn = 0;
+let resultTabComputer = [];
+let resultTab = [];
 let timer = 0;
 let startingSeconds = 0;
+let audio1 = '';
+let audio2 = '';
 let audioMinuterie = new Audio('Audio/minuteur.mp3');
-let audioAlert = new Audio('Audio/reveil.mp3');
+let audioAlert = new Audio('Audio/reveil2.mp3');
+
 let multiplyComputer = 0;
 let choiceMultiply = 0;
-let tQuestion = '';
+let templateQuestion = '';
 // variable values time and operation
 let numberOperation = 0;
-let ChoiceSeconds = 0;
+let choiceSeconds = 0;
 // //variable input radio not checked
 let inputOperationValue = 0;
 let inputTimeValue = 0;
@@ -62,7 +75,7 @@ buttonTableRandom.addEventListener('click', () => {
 // choice operation number
 choiceOperations.forEach((operation) => {
   operation.addEventListener('click', (e) => {
-    numberOperation = e.target.value;
+    numberOperation = Number(e.target.value);
     operation.setAttribute('checked', '');
     inputOperationValue = 1;
   });
@@ -71,7 +84,7 @@ choiceOperations.forEach((operation) => {
 //choice timer
 choiceTimes.forEach((time) => {
   time.addEventListener('click', (e) => {
-    choiceSeconds = e.target.id;
+    choiceSeconds = e.target.value;
     time.setAttribute('checked', '');
     inputTimeValue = 1;
   });
@@ -81,16 +94,18 @@ choiceTimes.forEach((time) => {
 buttonPlayCalcul.addEventListener('click', () => {
   // verifie si tous les critères ont été choisis si non on alerte pour commencer le jeu
   checkchoices();
-
-  // si temps écoulé avant validation, stopper le game et afficher la popup et valider les réponses pour
-  //connaitre les bonnes et mauvaises réponses.
-
-  // affiche le score bonne réponses et mauvaises réponses après validation réponses
-  //fin chrono popup s'affiche avec le résumé des opérations + symbol pour indquer bon et mauvais
+  buttonResetGame.classList.add('buttons-off');
 });
 
 //button reset
 buttonResetGame.addEventListener('click', reset);
+
+//button validation responses
+buttonValidation.addEventListener('click', () => {
+  timerOn = 0;
+  clearCounter();
+  validation();
+});
 
 //function reset and table disabled
 function reset() {
@@ -98,18 +113,27 @@ function reset() {
   blockTableMultiplyRandom.classList.remove('boxDisabled');
   tableMultiplyRandom.classList.remove('multiply-random-active');
   displayTimer.classList.remove('start-timer-active');
-  validation.classList.remove('validation-active');
+  buttonValidation.classList.remove('validation-active');
   boxRandom.classList.remove('random-active');
   buttonPlayCalcul.classList.remove('play-active');
-
+  boxCalcul.classList.remove('boxDisabled');
+  smiley.setAttribute('src', '');
+  smiley.classList.remove('emoji-active');
+  timerOn = 0;
+  resultTab = [];
+  resultTabComputer = [];
   multiplyComputer = 0;
   choiceMultiply = 0;
   numberOperation = 0;
   inputOperationValue = 0;
   inputTimeValue = 0;
   tQuestion = '';
+  scoreTotal.textContent = '0%';
+  scoreTrue.textContent = 0;
+  scoreFalse.textContent = 0;
   clearHtmlQuestion();
   clearCounter();
+  clearAudio();
 
   //variable input radio operation
   inputOperation = document.querySelector('input[name="operation"]:checked');
@@ -142,17 +166,20 @@ function tableDisabled() {
 function checkchoices() {
   if (choiceMultiply === 0 && multiplyComputer === 0) {
     alert('Choissisez la table de révision !');
+    return;
   } else if (inputOperationValue === 0 && inputTimeValue === 0) {
     alert(
       "Vous avez oublié de choisir le nombre d'opération et le temps pour la révision"
     );
+    return;
   } else if (inputOperationValue === 0) {
     alert("Choisissez le nombre d'opérations à répondre");
+    return;
   } else if (inputTimeValue === 0) {
     alert('Choisissez le temps de réponse pour la révision');
-  } else {
-    screenTimer();
+    return;
   }
+  screenTimer();
 }
 
 function screenTimer() {
@@ -163,33 +190,58 @@ function screenTimer() {
 }
 
 // display calcul
-
 function question() {
   // create number operations in box response
   let i = 0;
   while (i < numberOperation) {
     //create template multiply questions
-    tQuestion = `
+    templateQuestion = `
     <p class="calcul">
     <span class="question-calcul"></span>
-    <input type="text" size="3" minlength="1" maxlength="3" class="input-response">
+    <input type="text" size="3" minlength="1" maxlength="3" class="input-response result-calcul result-index">
     </p>
     `;
-    boxCalcul.insertAdjacentHTML('afterbegin', tQuestion);
-    i++;
+    boxCalcul.insertAdjacentHTML('afterbegin', templateQuestion); // insert le template avant toutes les balises p
     const displayQuestionCalcul = document.querySelector('.question-calcul');
-    let qCalcul = Math.floor(Math.random() * 11) + 1;
-    if (multiplyComputer > 0) {
-      displayQuestionCalcul.textContent = `${multiplyComputer} x ${qCalcul} = `;
-    } else {
-      displayQuestionCalcul.textContent = `${choiceMultiply} x ${qCalcul} = `;
+
+    // display operation and random number
+    ///////////////////////////////////////////// code récupérer
+    function randomArray(i, min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+
+      let arr = Array.from(
+        { length: i },
+        () => Math.floor(Math.random() * (max - min)) + min
+      );
+
+      return arr.sort();
     }
+
+    let uniqueItems = [...new Set(randomArray(1, 1, 10))];
+    ///////////////////////////////////////////////////////////
+    // let qCalcul = Math.floor(Math.random() * 11) + 1;
+    if (multiplyComputer > 0) {
+      displayQuestionCalcul.textContent = `${multiplyComputer} x ${uniqueItems} = `;
+      resultTabComputer.push(multiplyComputer * uniqueItems);
+    } else {
+      displayQuestionCalcul.textContent = `${choiceMultiply} x ${uniqueItems} = `;
+      resultTabComputer.push(choiceMultiply * uniqueItems);
+    }
+
+    console.log('resultat computer : ' + resultTabComputer);
+    i++;
+    /// fin boucle while
   }
-  validation.classList.add('validation-active');
+  resultTabComputer.reverse();
+
+  buttonValidation.classList.add('validation-active');
   buttonPlayCalcul.classList.add('play-active');
+
+  // fin function question
 }
 
-// clear balse HTML de la box réponse then click reset // code récupérer mais compris
+// clear balise HTML on box response then click reset // code récupérer mais compris
 function clearHtmlQuestion() {
   const element = document.getElementById('html');
   while (element.firstChild) {
@@ -200,35 +252,144 @@ function clearHtmlQuestion() {
 // function timer
 const countdown = () => {
   startingSeconds = choiceSeconds;
-
   timer = setInterval(counter, 1000);
 
+  // function interval timer
   function counter() {
     startingSeconds =
       startingSeconds < 10 ? `0${startingSeconds}` : startingSeconds;
     displayTimer.textContent = `${startingSeconds} secondes `;
 
     if (startingSeconds > 0) {
-      // audioMinuterie.play();
+      timerOn = 1;
+      responses();
       startingSeconds--;
+      audio1 = setTimeout(() => {
+        audioMinuterie.play();
+      }, 0);
     } else {
-      // audioMinuterie.pause();
-      // audioMinuterie.currentTime = 0;
-      // audioAlert.play();
-
-      // setTimeout(() => {
-      //   audioAlert.pause();
-      //   audioAlert.currentTime = 0;
-      // }, 1000);
+      timerOn = 0;
+      audioMinuterie.pause();
+      audioMinuterie.currentTime = 0;
+      audio2 = setTimeout(() => {
+        audioAlert.play();
+      }, 0);
+      setTimeout(() => {
+        audioAlert.pause();
+        audioAlert.currentTime = 0;
+      }, 1000);
 
       displayTimer.textContent = 'le temps est écoulé';
       displayTimer.style.color = 'orange';
+      timerOn = 0;
+      clearCounter();
+      responses();
+      return;
     }
   }
 };
 
+// Reset sur le timer et les audios
 function clearCounter() {
   choiceSecond = 0;
   startingSeconds = 0;
   clearInterval(timer);
 }
+
+function clearAudio() {
+  clearTimeout(audio1);
+  clearTimeout(audio2);
+}
+
+// Ecoute responses
+const responses = () => {
+  if (timerOn === 1) {
+    inputsResult = document.querySelectorAll('.result-calcul');
+    inputsResult.forEach((input) => {
+      input.addEventListener('input', (e) => {
+        let resultInput = parseInt(e.target.value);
+        resultTab.push(resultInput);
+      });
+    });
+  } else if (timerOn === 0) {
+    inputsResult.forEach((resp) => {
+      if (resp.value == '') {
+        resultTab.push(0);
+        resp.value = '0';
+      }
+    });
+    boxCalcul.classList.add('boxDisabled');
+    buttonValidation.classList.add('buttons-off');
+    validation();
+    return;
+  }
+};
+
+//validation responses by button or timer off
+function validation() {
+  // resultTabComputer = les réponses ordinateur
+  // resultTab = les réponses des enfants
+  let goodPoint = 0;
+  let wrongPoint = 0;
+  const tabComputer = [...resultTabComputer];
+  const tabResponse = [...resultTab];
+  for (i = 0; i < tabComputer.length; i++) {
+    if (tabResponse.includes(tabComputer[i])) {
+      goodPoint++;
+      scoreTrue.textContent = goodPoint;
+    } else {
+      wrongPoint++;
+      scoreFalse.textContent = wrongPoint;
+    }
+    totalPoint = parseInt((goodPoint / numberOperation) * 100);
+    scoreTotal.textContent = `${totalPoint}%`;
+    emoji();
+  }
+  return;
+}
+
+// smileys percent score
+function emoji() {
+  if (totalPoint === 0) {
+    const audioNull = new Audio('Audio/null.mp3');
+    setTimeout(() => {
+      smiley.classList.add('emoji-active');
+      smiley.setAttribute('src', 'svg/en-colere.svg');
+      audioNull.play();
+    }, 1000);
+    return;
+  } else if (totalPoint === 100) {
+    const audioBravo = new Audio('Audio/bravo.mp3');
+    setTimeout(() => {
+      smiley.classList.add('emoji-active');
+      smiley.setAttribute('src', 'svg/heureux.svg');
+      audioBravo.play();
+    }, 1000);
+    return;
+  } else if (totalPoint > 0 && totalPoint <= 20) {
+    smiley.classList.add('emoji-active');
+    smiley.setAttribute('src', 'svg/pleurs2.svg');
+    return;
+  } else if (totalPoint > 20 && totalPoint <= 40) {
+    smiley.classList.add('emoji-active');
+    smiley.setAttribute('src', 'svg/malheureux.svg');
+    return;
+  } else if (totalPoint > 40 && totalPoint <= 60) {
+    smiley.classList.add('emoji-active');
+    smiley.setAttribute('src', 'svg/pleurs.svg');
+    return;
+  } else if (totalPoint > 60 && totalPoint <= 80) {
+    smiley.classList.add('emoji-active');
+    smiley.setAttribute('src', 'svg/silencieux.svg');
+    return;
+  } else {
+    smiley.classList.add('emoji-active');
+    smiley.setAttribute('src', 'svg/heureux.svg');
+    return;
+  }
+}
+
+// // affiche fenetre overlay qui résume le tout
+// function endGame() {
+//   ////
+// }

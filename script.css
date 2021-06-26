@@ -57,6 +57,11 @@ body {
   visibility: hidden;
   color: rgb(236, 222, 222);
 }
+
+.overlay-active {
+  visibility: visible;
+}
+
 /* -- text finish --*/
 .text-overlay {
   text-align: center;
@@ -114,6 +119,7 @@ body {
 
 .input-response {
   text-align: center;
+  font-size: 20px;
   height: 30px;
   width: 60px;
   color: rgb(236, 222, 222);
@@ -126,28 +132,46 @@ body {
 
 .text-total {
   text-align: center;
-  font-size: 18px;
+  font-size: 20px;
   margin-bottom: 40px;
 }
 
 .number-score {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   font-size: 50px;
+}
+
+.total {
+  margin: 6px 0 6px;
+}
+
+#score-true {
+  color: green;
   transform: translateY(-40%);
 }
 
-#number-true {
-  color: green;
-}
-
-#number-false {
+#score-false {
   color: red;
+  transform: translateY(-40%);
 }
 
-#number-total {
+#score-total {
   color: rgb(236, 222, 222);
+}
+
+.emoji {
+  width: 70px;
+  height: 70px;
+  visibility: hidden;
+}
+
+.emoji-active {
+  width: 70px;
+  height: 70px;
+  visibility: visible;
 }
 
 /* -- style box table multiply --*/
@@ -293,6 +317,11 @@ input[type='radio']:checked + label {
 
 .play-active {
   display: none;
+}
+
+.buttons-off {
+  pointer-events: none;
+  opacity: 0.5;
 }
 /* -- hover all buttons -- */
 
