@@ -102,7 +102,11 @@ buttonResetGame.addEventListener('click', reset);
 
 //button validation responses
 buttonValidation.addEventListener('click', () => {
+  audioMinuterie.pause();
+  audioMinuterie.currentTime = 0;
   timerOn = 0;
+  responses();
+  clearAudio();
   clearCounter();
   validation();
 });
@@ -341,10 +345,10 @@ function validation() {
       wrongPoint++;
       scoreFalse.textContent = wrongPoint;
     }
-    totalPoint = parseInt((goodPoint / numberOperation) * 100);
+    totalPoint = Math.round((goodPoint / numberOperation) * 100);
     scoreTotal.textContent = `${totalPoint}%`;
-    emoji();
   }
+  emoji();
   return;
 }
 
@@ -358,7 +362,9 @@ function emoji() {
       audioNull.play();
     }, 1000);
     return;
-  } else if (totalPoint === 100) {
+  }
+
+  if (totalPoint === 100) {
     const audioBravo = new Audio('Audio/bravo.mp3');
     setTimeout(() => {
       smiley.classList.add('emoji-active');
@@ -366,21 +372,23 @@ function emoji() {
       audioBravo.play();
     }, 1000);
     return;
-  } else if (totalPoint > 0 && totalPoint <= 20) {
+  }
+
+  if (totalPoint >= 1 && totalPoint <= 20) {
     smiley.classList.add('emoji-active');
     smiley.setAttribute('src', 'svg/pleurs2.svg');
     return;
   } else if (totalPoint > 20 && totalPoint <= 40) {
     smiley.classList.add('emoji-active');
-    smiley.setAttribute('src', 'svg/malheureux.svg');
+    smiley.setAttribute('src', 'svg/pleurs.svg');
     return;
   } else if (totalPoint > 40 && totalPoint <= 60) {
     smiley.classList.add('emoji-active');
-    smiley.setAttribute('src', 'svg/pleurs.svg');
+    smiley.setAttribute('src', 'svg/malheureux.svg');
     return;
   } else if (totalPoint > 60 && totalPoint <= 80) {
     smiley.classList.add('emoji-active');
-    smiley.setAttribute('src', 'svg/silencieux.svg');
+    smiley.setAttribute('src', 'svg/silencieux.svg' + totalPoint);
     return;
   } else {
     smiley.classList.add('emoji-active');
