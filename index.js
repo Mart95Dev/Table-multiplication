@@ -32,7 +32,12 @@ const scoreTrue = document.getElementById('score-true');
 const scoreTotal = document.getElementById('score-total');
 const smiley = document.getElementById('smiley');
 
+//button popup visible and close popup
+const overlay = document.querySelector('.overlay');
+const btnOverlay = document.getElementById('btn-overlay');
+
 //variables
+let test = [];
 let totalPoint = 0;
 let timerOn = 0;
 let resultTabComputer = [];
@@ -54,6 +59,9 @@ let choiceSeconds = 0;
 let inputOperationValue = 0;
 let inputTimeValue = 0;
 
+///////////////////////////////////////////////////////////////////
+// choices parameters by child
+////////////////////////////////////////////////////////////////////
 // choice table multiply
 tablesMultiply.forEach((table) => {
   table.addEventListener('click', (e) => {
@@ -90,9 +98,12 @@ choiceTimes.forEach((time) => {
   });
 });
 
+/////////////////////////////////////////////////////////////
+/// buttons reset, play and validation
+////////////////////////////////////////////////////////////
+
 // button play game
 buttonPlayCalcul.addEventListener('click', () => {
-  // verifie si tous les critères ont été choisis si non on alerte pour commencer le jeu
   checkchoices();
   buttonResetGame.classList.add('buttons-off');
 });
@@ -111,8 +122,19 @@ buttonValidation.addEventListener('click', () => {
   validation();
 });
 
-//function reset and table disabled
+//button popup off
+btnOverlay.addEventListener('click', () => {
+  overlay.classList.remove('overlay-active');
+  reset();
+});
+
+///////////////////////////////////////////////////////////////////////
+//functions called
+/////////////////////////////////////////////////////////////////////
+
+//function reset
 function reset() {
+  buttonResetGame.classList.remove('buttons-off');
   blockTableMultiply.classList.remove('boxDisabled');
   blockTableMultiplyRandom.classList.remove('boxDisabled');
   tableMultiplyRandom.classList.remove('multiply-random-active');
@@ -156,7 +178,7 @@ function reset() {
   return;
 }
 
-//box-disabled
+//function box-disabled - table disabled
 function tableDisabled() {
   if (choiceMultiply > 0) {
     blockTableMultiplyRandom.classList.add('boxDisabled');
@@ -167,6 +189,7 @@ function tableDisabled() {
   }
 }
 
+//function check choices
 function checkchoices() {
   if (choiceMultiply === 0 && multiplyComputer === 0) {
     alert('Choissisez la table de révision !');
@@ -186,6 +209,7 @@ function checkchoices() {
   screenTimer();
 }
 
+//function display timer
 function screenTimer() {
   displayTimer.classList.add('start-timer-active');
   displayTimer.textContent = `${choiceSeconds} secondes`;
@@ -193,9 +217,8 @@ function screenTimer() {
   countdown();
 }
 
-// display calcul
+// function display calcul - create numbers operations in box response
 function question() {
-  // create number operations in box response
   let i = 0;
   while (i < numberOperation) {
     //create template multiply questions
@@ -208,23 +231,23 @@ function question() {
     boxCalcul.insertAdjacentHTML('afterbegin', templateQuestion); // insert le template avant toutes les balises p
     const displayQuestionCalcul = document.querySelector('.question-calcul');
 
-    // display operation and random number
-    ///////////////////////////////////////////// code récupérer
-    function randomArray(i, min, max) {
+    // random number
+    ////////////////////////////////////////////////////////////// code récupérer
+
+    function randomNumber(min, max) {
       min = Math.ceil(min);
       max = Math.floor(max);
 
-      let arr = Array.from(
-        { length: i },
-        () => Math.floor(Math.random() * (max - min)) + min
-      );
+      let nbr = Math.floor(Math.random() * (max - min)) + min;
+      test.push(nbr);
 
-      return arr.sort();
+      return nbr;
     }
 
-    let uniqueItems = [...new Set(randomArray(1, 1, 10))];
+    let uniqueItems = randomNumber(1, 10);
+
     ///////////////////////////////////////////////////////////
-    // let qCalcul = Math.floor(Math.random() * 11) + 1;
+
     if (multiplyComputer > 0) {
       displayQuestionCalcul.textContent = `${multiplyComputer} x ${uniqueItems} = `;
       resultTabComputer.push(multiplyComputer * uniqueItems);
@@ -233,11 +256,11 @@ function question() {
       resultTabComputer.push(choiceMultiply * uniqueItems);
     }
 
-    console.log('resultat computer : ' + resultTabComputer);
     i++;
     /// fin boucle while
   }
   resultTabComputer.reverse();
+  console.log('resultat computer : ' + resultTabComputer);
 
   buttonValidation.classList.add('validation-active');
   buttonPlayCalcul.classList.add('play-active');
@@ -245,7 +268,7 @@ function question() {
   // fin function question
 }
 
-// clear balise HTML on box response then click reset // code récupérer mais compris
+// function clear balise HTML on box response then click reset // code récupérer mais compris
 function clearHtmlQuestion() {
   const element = document.getElementById('html');
   while (element.firstChild) {
@@ -258,7 +281,6 @@ const countdown = () => {
   startingSeconds = choiceSeconds;
   timer = setInterval(counter, 1000);
 
-  // function interval timer
   function counter() {
     startingSeconds =
       startingSeconds < 10 ? `0${startingSeconds}` : startingSeconds;
@@ -293,19 +315,20 @@ const countdown = () => {
   }
 };
 
-// Reset sur le timer et les audios
+// function reset timer
 function clearCounter() {
   choiceSecond = 0;
   startingSeconds = 0;
   clearInterval(timer);
 }
 
+// function reset musics
 function clearAudio() {
   clearTimeout(audio1);
   clearTimeout(audio2);
 }
 
-// Ecoute responses
+// function responses
 const responses = () => {
   if (timerOn === 1) {
     inputsResult = document.querySelectorAll('.result-calcul');
@@ -322,6 +345,14 @@ const responses = () => {
         resp.value = '0';
       }
     });
+
+    //////////////////////////////////////// code récuperer
+    const filteredArray = resultTab.filter(
+      (ele, pos) => resultTab.indexOf(ele) == pos
+    );
+    console.log('tableau des réponses filtrés sont', filteredArray);
+    ////////////////////////////////////////////////////////////
+
     boxCalcul.classList.add('boxDisabled');
     buttonValidation.classList.add('buttons-off');
     validation();
@@ -329,10 +360,8 @@ const responses = () => {
   }
 };
 
-//validation responses by button or timer off
+//function validation responses by button or timer off
 function validation() {
-  // resultTabComputer = les réponses ordinateur
-  // resultTab = les réponses des enfants
   let goodPoint = 0;
   let wrongPoint = 0;
   const tabComputer = [...resultTabComputer];
@@ -349,10 +378,11 @@ function validation() {
     scoreTotal.textContent = `${totalPoint}%`;
   }
   emoji();
+  endGame();
   return;
 }
 
-// smileys percent score
+// function smileys percent score
 function emoji() {
   if (totalPoint === 0) {
     const audioNull = new Audio('Audio/null.mp3');
@@ -388,7 +418,7 @@ function emoji() {
     return;
   } else if (totalPoint > 60 && totalPoint <= 80) {
     smiley.classList.add('emoji-active');
-    smiley.setAttribute('src', 'svg/silencieux.svg' + totalPoint);
+    smiley.setAttribute('src', 'svg/sourire.svg');
     return;
   } else {
     smiley.classList.add('emoji-active');
@@ -397,7 +427,12 @@ function emoji() {
   }
 }
 
-// // affiche fenetre overlay qui résume le tout
-// function endGame() {
-//   ////
-// }
+// function popup end game
+function endGame() {
+  overlay.classList.add('overlay-active');
+
+  // setTimeout(() => {
+  //   overlay.classList.remove('overlay-active');
+  // }, 3000);
+  return;
+}

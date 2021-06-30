@@ -7,6 +7,7 @@
 }
 /*-- position grid --*/
 body {
+  overflow: hidden;
   padding: 10px;
   height: 100vh;
   width: 100vw;
@@ -60,6 +61,19 @@ body {
 
 .overlay-active {
   visibility: visible;
+}
+
+.btn-overlay {
+  position: relative;
+  left: 75%;
+  border: 1px solid rgb(236, 222, 222);
+  background-color: teal;
+  border-radius: 3px;
+  width: 150px;
+  height: 35px;
+  color: rgb(236, 222, 222);
+  cursor: pointer;
+  font-size: 16px;
 }
 
 /* -- text finish --*/
@@ -327,7 +341,8 @@ input[type='radio']:checked + label {
 
 .reset:hover,
 .play:hover,
-.validation:hover {
+.validation:hover,
+.btn-overlay:hover {
   background-color: orange;
 }
 
