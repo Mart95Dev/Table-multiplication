@@ -122,7 +122,7 @@ buttonValidation.addEventListener('click', () => {
   validation();
 });
 
-//button popup off
+//button window off
 btnOverlay.addEventListener('click', () => {
   overlay.classList.remove('overlay-active');
   reset();
@@ -133,7 +133,7 @@ btnOverlay.addEventListener('click', () => {
 /////////////////////////////////////////////////////////////////////
 
 //function reset
-function reset() {
+const reset = () => {
   buttonResetGame.classList.remove('buttons-off');
   blockTableMultiply.classList.remove('boxDisabled');
   blockTableMultiplyRandom.classList.remove('boxDisabled');
@@ -176,10 +176,10 @@ function reset() {
     }
   }
   return;
-}
+};
 
 //function box-disabled - table disabled
-function tableDisabled() {
+const tableDisabled = () => {
   if (choiceMultiply > 0) {
     blockTableMultiplyRandom.classList.add('boxDisabled');
   } else if (multiplyComputer > 0) {
@@ -187,10 +187,10 @@ function tableDisabled() {
     // tableMultiplyRandom.classList.add('multiply-random-active');
     return;
   }
-}
+};
 
 //function check choices
-function checkchoices() {
+const checkchoices = () => {
   if (choiceMultiply === 0 && multiplyComputer === 0) {
     alert('Choissisez la table de révision !');
     return;
@@ -207,81 +207,66 @@ function checkchoices() {
     return;
   }
   screenTimer();
-}
+};
 
 //function display timer
-function screenTimer() {
+const screenTimer = () => {
   displayTimer.classList.add('start-timer-active');
   displayTimer.textContent = `${choiceSeconds} secondes`;
   question();
   countdown();
-}
+};
+
+// function number random
+const randomNumber = (max) => {
+  let nbr = Math.floor(Math.random() * max) + 1;
+
+  if (tab.includes(nbr)) randomNumber(max);
+  else return nbr;
+};
 
 // function display calcul - create numbers operations in box response
-function question() {
-  let i = 0;
-  while (i < numberOperation) {
+const question = () => {
+  tab = [];
+
+  for (var i = 0; i < numberOperation; i++) {
+    const v = randomNumber(10);
+    if (v === undefined) i--;
+    else tab.push(v);
+  }
+
+  tab.forEach((value) => {
     //create template multiply questions
     templateQuestion = `
-    <p class="calcul">
-    <span class="question-calcul"></span>
-    <input type="text" size="3" minlength="1" maxlength="3" class="input-response result-calcul result-index">
-    </p>
-    `;
+   <p class="calcul">
+   <span class="question-calcul"></span>
+   <input type="text" size="3" minlength="1" maxlength="3" class="input-response result-calcul result-index">
+   </p>
+   `;
     boxCalcul.insertAdjacentHTML('afterbegin', templateQuestion); // insert le template avant toutes les balises p
+
     const displayQuestionCalcul = document.querySelector('.question-calcul');
+    const multiply = multiplyComputer || choiceMultiply; // falsy
 
-    // random number
-    ////////////////////////////////////////////////////////////// code récupérer
-
-    function randomNumber(min, max) {
-      min = Math.ceil(min);
-      max = Math.floor(max);
-
-      let nbr = Math.floor(Math.random() * (max - min)) + min;
-      test.push(nbr);
-
-      return nbr;
-    }
-
-    let uniqueItems = randomNumber(1, 10);
-
-    ///////////////////////////////////////////////////////////
-
-    if (multiplyComputer > 0) {
-      displayQuestionCalcul.textContent = `${multiplyComputer} x ${uniqueItems} = `;
-      resultTabComputer.push(multiplyComputer * uniqueItems);
-    } else {
-      displayQuestionCalcul.textContent = `${choiceMultiply} x ${uniqueItems} = `;
-      resultTabComputer.push(choiceMultiply * uniqueItems);
-    }
-
-    i++;
-    /// fin boucle while
-  }
-  resultTabComputer.reverse();
-  console.log('resultat computer : ' + resultTabComputer);
-
-  buttonValidation.classList.add('validation-active');
-  buttonPlayCalcul.classList.add('play-active');
-
-  // fin function question
-}
+    displayQuestionCalcul.textContent = `${multiply} x ${value} = `;
+    resultTabComputer.push(multiply * value);
+  });
+};
 
 // function clear balise HTML on box response then click reset // code récupérer mais compris
-function clearHtmlQuestion() {
+const clearHtmlQuestion = () => {
   const element = document.getElementById('html');
   while (element.firstChild) {
     element.removeChild(element.firstChild);
   }
-}
+};
 
 // function timer
 const countdown = () => {
   startingSeconds = choiceSeconds;
   timer = setInterval(counter, 1000);
 
-  function counter() {
+  const counter = () => {
     startingSeconds =
       startingSeconds < 10 ? `0${startingSeconds}` : startingSeconds;
     displayTimer.textContent = `${startingSeconds} secondes `;
@@ -312,21 +297,21 @@ const countdown = () => {
       responses();
       return;
     }
-  }
+  };
 };
 
 // function reset timer
-function clearCounter() {
+const clearCounter = () => {
   choiceSecond = 0;
   startingSeconds = 0;
   clearInterval(timer);
-}
+};
 
 // function reset musics
-function clearAudio() {
+const clearAudio = () => {
   clearTimeout(audio1);
   clearTimeout(audio2);
-}
+};
 
 // function responses
 const responses = () => {
@@ -361,7 +346,7 @@ const responses = () => {
 };
 
 //function validation responses by button or timer off
-function validation() {
+const validation = () => {
   let goodPoint = 0;
   let wrongPoint = 0;
   const tabComputer = [...resultTabComputer];
@@ -380,10 +365,10 @@ function validation() {
   emoji();
   endGame();
   return;
-}
+};
 
 // function smileys percent score
-function emoji() {
+const emoji = () => {
   if (totalPoint === 0) {
     const audioNull = new Audio('Audio/null.mp3');
     setTimeout(() => {
@@ -425,14 +410,14 @@ function emoji() {
     smiley.setAttribute('src', 'svg/heureux.svg');
     return;
   }
-}
+};
 
 // function popup end game
-function endGame() {
+const endGame = () => {
   overlay.classList.add('overlay-active');
 
   // setTimeout(() => {
   //   overlay.classList.remove('overlay-active');
   // }, 3000);
   return;
-}
+};
