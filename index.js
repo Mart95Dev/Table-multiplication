@@ -37,7 +37,6 @@ const overlay = document.querySelector('.overlay');
 const btnOverlay = document.getElementById('btn-overlay');
 
 //variables
-let test = [];
 let totalPoint = 0;
 let timerOn = 0;
 let resultTabComputer = [];
@@ -48,10 +47,8 @@ let audio1 = '';
 let audio2 = '';
 let audioMinuterie = new Audio('Audio/minuteur.mp3');
 let audioAlert = new Audio('Audio/reveil2.mp3');
-
 let multiplyComputer = 0;
 let choiceMultiply = 0;
-let templateQuestion = '';
 // variable values time and operation
 let numberOperation = 0;
 let choiceSeconds = 0;
@@ -105,7 +102,9 @@ choiceTimes.forEach((time) => {
 // button play game
 buttonPlayCalcul.addEventListener('click', () => {
   checkchoices();
-  buttonResetGame.classList.add('buttons-off');
+  // buttonResetGame.classList.add('buttons-off');
+  buttonPlayCalcul.classList.add('play-active');
+  buttonValidation.classList.add('validation-active');
 });
 
 //button reset
@@ -122,7 +121,7 @@ buttonValidation.addEventListener('click', () => {
   validation();
 });
 
-//button window off
+//button overlay off and reset game
 btnOverlay.addEventListener('click', () => {
   overlay.classList.remove('overlay-active');
   reset();
@@ -133,8 +132,9 @@ btnOverlay.addEventListener('click', () => {
 /////////////////////////////////////////////////////////////////////
 
 //function reset
-const reset = () => {
+function reset() {
   buttonResetGame.classList.remove('buttons-off');
+  buttonValidation.classList.remove('buttons-off');
   blockTableMultiply.classList.remove('boxDisabled');
   blockTableMultiplyRandom.classList.remove('boxDisabled');
   tableMultiplyRandom.classList.remove('multiply-random-active');
@@ -176,7 +176,7 @@ const reset = () => {
     }
   }
   return;
-};
+}
 
 //function box-disabled - table disabled
 const tableDisabled = () => {
@@ -229,7 +229,7 @@ const randomNumber = (max) => {
 const question = () => {
   tab = [];
 
-  for (var i = 0; i < numberOperation; i++) {
+  for (i = 0; i < numberOperation; i++) {
     const v = randomNumber(10);
     if (v === undefined) i--;
     else tab.push(v);
@@ -237,7 +237,7 @@ const question = () => {
 
   tab.forEach((value) => {
     //create template multiply questions
-    templateQuestion = `
+    let templateQuestion = `
    <p class="calcul">
    <span class="question-calcul"></span>
    <input type="text" size="3" minlength="1" maxlength="3" class="input-response result-calcul result-index">
@@ -266,7 +266,7 @@ const countdown = () => {
   startingSeconds = choiceSeconds;
   timer = setInterval(counter, 1000);
 
-  const counter = () => {
+  function counter() {
     startingSeconds =
       startingSeconds < 10 ? `0${startingSeconds}` : startingSeconds;
     displayTimer.textContent = `${startingSeconds} secondes `;
@@ -297,7 +297,7 @@ const countdown = () => {
       responses();
       return;
     }
-  };
+  }
 };
 
 // function reset timer
@@ -331,15 +331,7 @@ const responses = () => {
       }
     });
 
-    //////////////////////////////////////// code récuperer
-    const filteredArray = resultTab.filter(
-      (ele, pos) => resultTab.indexOf(ele) == pos
-    );
-    console.log('tableau des réponses filtrés sont', filteredArray);
-    ////////////////////////////////////////////////////////////
-
     boxCalcul.classList.add('boxDisabled');
-    buttonValidation.classList.add('buttons-off');
     validation();
     return;
   }
@@ -350,7 +342,9 @@ const validation = () => {
   let goodPoint = 0;
   let wrongPoint = 0;
   const tabComputer = [...resultTabComputer];
+  console.log('reponses computer :' + tabComputer);
   const tabResponse = [...resultTab];
+  console.log('reponses child :' + tabResponse);
   for (i = 0; i < tabComputer.length; i++) {
     if (tabResponse.includes(tabComputer[i])) {
       goodPoint++;
@@ -362,6 +356,7 @@ const validation = () => {
     totalPoint = Math.round((goodPoint / numberOperation) * 100);
     scoreTotal.textContent = `${totalPoint}%`;
   }
+  buttonValidation.classList.add('buttons-off');
   emoji();
   endGame();
   return;
@@ -401,23 +396,39 @@ const emoji = () => {
     smiley.classList.add('emoji-active');
     smiley.setAttribute('src', 'svg/malheureux.svg');
     return;
-  } else if (totalPoint > 60 && totalPoint <= 80) {
+  } else if (totalPoint > 60 && totalPoint <= 79) {
     smiley.classList.add('emoji-active');
     smiley.setAttribute('src', 'svg/sourire.svg');
     return;
-  } else {
+  } else if (totalPoint >= 80) {
     smiley.classList.add('emoji-active');
-    smiley.setAttribute('src', 'svg/heureux.svg');
+    smiley.setAttribute('src', 'svg/heureux2.svg');
     return;
   }
+};
+
+//function check responses calcul
+const checkResponses = () => {
+  // faire d'abord une boucle pour avec for each sur filteredTabResult pour récupérer
+  // la valeur des réponses et comparer au réultat computer. si bonne réponse mettre croix verte sinon rouge
+  //// continuer poucréer les lignes de résumé des calculs
+  const resume = `  
+  <li></li>
+  
+  `;
 };
 
 // function popup end game
 const endGame = () => {
   overlay.classList.add('overlay-active');
 
-  // setTimeout(() => {
-  //   overlay.classList.remove('overlay-active');
-  // }, 3000);
+  //////////////////////////////////////// code récuperer
+  const filteredTabResult = resultTab.filter(
+    (ele, pos) => resultTab.indexOf(ele) == pos
+  );
+  console.log('tableau des réponses filtrés sont', filteredTabResult);
+  ////////////////////////////////////////////////////////////
+
+  checkResponses();
   return;
 };
