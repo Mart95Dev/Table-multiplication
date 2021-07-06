@@ -35,12 +35,14 @@ const smiley = document.getElementById('smiley');
 //button popup visible and close popup
 const overlay = document.querySelector('.overlay');
 const btnOverlay = document.getElementById('btn-overlay');
+const resume = document.querySelector('.resume'); /// recupère la class ul
 
 //variables
 let totalPoint = 0;
 let timerOn = 0;
 let resultTabComputer = [];
 let resultTab = [];
+let tab = [];
 let timer = 0;
 let startingSeconds = 0;
 let audio1 = '';
@@ -103,8 +105,6 @@ choiceTimes.forEach((time) => {
 buttonPlayCalcul.addEventListener('click', () => {
   checkchoices();
   // buttonResetGame.classList.add('buttons-off');
-  buttonPlayCalcul.classList.add('play-active');
-  buttonValidation.classList.add('validation-active');
 });
 
 //button reset
@@ -145,6 +145,7 @@ function reset() {
   boxCalcul.classList.remove('boxDisabled');
   smiley.setAttribute('src', '');
   smiley.classList.remove('emoji-active');
+  resume.innerHTML = '';
   timerOn = 0;
   resultTab = [];
   resultTabComputer = [];
@@ -206,6 +207,8 @@ const checkchoices = () => {
     alert('Choisissez le temps de réponse pour la révision');
     return;
   }
+  buttonPlayCalcul.classList.add('play-active');
+  buttonValidation.classList.add('validation-active');
   screenTimer();
 };
 
@@ -342,11 +345,9 @@ const validation = () => {
   let goodPoint = 0;
   let wrongPoint = 0;
   const tabComputer = [...resultTabComputer];
-  console.log('reponses computer :' + tabComputer);
   const tabResponse = [...resultTab];
-  console.log('reponses child :' + tabResponse);
-  for (i = 0; i < tabComputer.length; i++) {
-    if (tabResponse.includes(tabComputer[i])) {
+  for (i = 0; i < resultTabComputer.length; i++) {
+    if (tabResponse.includes(resultTabComputer[i])) {
       goodPoint++;
       scoreTrue.textContent = goodPoint;
     } else {
@@ -409,26 +410,60 @@ const emoji = () => {
 
 //function check responses calcul
 const checkResponses = () => {
-  // faire d'abord une boucle pour avec for each sur filteredTabResult pour récupérer
-  // la valeur des réponses et comparer au réultat computer. si bonne réponse mettre croix verte sinon rouge
-  //// continuer poucréer les lignes de résumé des calculs
-  const resume = `  
-  <li></li>
-  
+  ///////// code récuperer  ///// Filtre les réponses pour eliminer les nombres recurrents sur l'input
+  const filteredTabResult = resultTab.filter(
+    (ele, pos) => resultTab.indexOf(ele) == pos
+  );
+  let seconds;
+  let timeOut;
+
+  if (displayTimer.textContent == 'le temps est écoulé') {
+    seconds = choiceSeconds;
+  } else {
+    timeOut = displayTimer.textContent.slice(0, 2);
+    seconds = choiceSeconds - Number(timeOut);
+  }
+
+  const textOverlay = document.querySelector('.text-overlay');
+  const multiplyTable = multiplyComputer || choiceMultiply; // falsy
+
+  textOverlay.innerHTML = `<h3> VOICI LE R&Eacute;SUM&Eacute DE TES R&Eacute;PONSES</h3>
+  <p> tu as choisis de réviser la table de <span class='variables'>${multiplyTable}</span>, avec un nombre de <span class='variables'>${numberOperation}</span> opération(s) sur un temps de <span class='variables'>${choiceSeconds}</span> secondes.</p>
+  <img class="separate-orange" src="image/separate-orange.png"  alt="ligne séparatrice orange">
+  <p> Tu as répondu à toutes les opérations en <span class='variables'>${seconds}</span> secondes</p>
+  <img class="separate-orange" src="image/separate-orange.png"  alt="ligne séparatrice orange">
+  <p> Voici les réponses aux calculs demandés :</p>
   `;
+
+  /////reponses computer = array resultTabComputer
+  ////reponses child = array resultTab
+  resume.innerHTML = resultTabComputer
+    .map((result) => {
+      let nbr = result / multiplyTable;
+
+      if (resultTab.includes(result)) {
+        return `<span class="result-overlay">
+        <li class='resumeCalcul'> ${multiplyTable} x ${nbr} = ${result}</li>  
+        <p>Bonne réponse</p>      
+        <img class="icone" src="image/good.png"  alt="bonne réponse">
+       
+        </span>`;
+      } else {
+        return `<span class="result-overlay">
+        <li class='resumeCalcul'> ${multiplyTable} x ${nbr} = ${result}</li>   
+        <p>Mauvaise réponse</p>    
+        <img class="icone" src="svg/wrong.svg"  alt="Mauvaise réponse">     
+        </span>`;
+      }
+    })
+    .join('');
+
+  resume.insertAdjacentHTML('beforeend', '<br>');
 };
 
 // function popup end game
 const endGame = () => {
   overlay.classList.add('overlay-active');
-
-  //////////////////////////////////////// code récuperer
-  const filteredTabResult = resultTab.filter(
-    (ele, pos) => resultTab.indexOf(ele) == pos
-  );
-  console.log('tableau des réponses filtrés sont', filteredTabResult);
-  ////////////////////////////////////////////////////////////
-
   checkResponses();
   return;
 };
