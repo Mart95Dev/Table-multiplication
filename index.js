@@ -429,9 +429,9 @@ const checkResponses = () => {
 
   textOverlay.innerHTML = `<h3> VOICI LE R&Eacute;SUM&Eacute DE TES R&Eacute;PONSES</h3>
   <p> tu as choisis de réviser la table de <span class='variables'>${multiplyTable}</span>, avec un nombre de <span class='variables'>${numberOperation}</span> opération(s) sur un temps de <span class='variables'>${choiceSeconds}</span> secondes.</p>
-  <img class="separate-orange" src="image/separate-orange.png"  alt="ligne séparatrice orange">
+  <img class="separate-orange" src="image/png/separate-orange.png"  alt="ligne séparatrice orange">
   <p> Tu as répondu à toutes les opérations en <span class='variables'>${seconds}</span> secondes</p>
-  <img class="separate-orange" src="image/separate-orange.png"  alt="ligne séparatrice orange">
+  <img class="separate-orange" src="image/png/separate-orange.png"  alt="ligne séparatrice orange">
   <p> Voici les réponses aux calculs demandés :</p>
   `;
 
@@ -445,7 +445,7 @@ const checkResponses = () => {
         return `<span class="result-overlay">
         <li class='resumeCalcul'> ${multiplyTable} x ${nbr} = ${result}</li>  
         <p>Bonne réponse</p>      
-        <img class="icone" src="image/good.png"  alt="bonne réponse">
+        <img class="icone" src="image/png/good.png"  alt="bonne réponse">
        
         </span>`;
       } else {
