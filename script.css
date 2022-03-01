@@ -246,7 +246,7 @@ h3 {
 }
 
 label {
-  user-select: none;
+  /* user-select: none; */
   transition: 0.2s ease;
   display: inline-flex;
   justify-content: center;
